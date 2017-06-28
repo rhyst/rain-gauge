@@ -23,10 +23,25 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
 
-    this.state = { binTime: '1', binDenom: 'days', localBinTime: '1', localBinDenom: 'days', lengthTime: '10', lengthDenom: 'days', stationID: '571479' };
+    this.state = { binTime: '1', binDenom: 'days', localBinTime: '1', localBinDenom: 'days', lengthTime: '10', lengthDenom: 'days', stationID: '571479', stations: [], markers: [] };
 
     this.props.fetchRain(this.state.stationID, this.state.lengthTime, this.state.lengthDenom)
-    this.props.fetchStations();
+    this.props.fetchStations();   
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({stations: nextProps.stations});
+    let markers = [];
+    if (nextProps.stations[0]) {
+      markers = nextProps.stations[0].map((station) => {
+        if (this.state.stationID == station.stationReference) {
+          return { position: { lat: station.lat, lng: station.long }, key: station.gridReference, onClick: this.handleMarkerClick, icon: 'selectedpin.png' }
+        } else {
+          return { position: { lat: station.lat, lng: station.long }, key: station.gridReference, onClick: this.handleMarkerClick }
+        }
+      })
+    }
+    this.setState({markers})
   }
 
   handleStationChange(stationID) {
@@ -56,7 +71,7 @@ class App extends Component {
   }
 
   handleMarkerClick(clicked) {
-    this.props.stations[0].map((station) => {
+    let newStations = this.state.stations[0].map((station) => {
       let clickedLng = Number(Math.round(clicked.latLng.lng()+'e'+station.long.toString().length)+'e-'+station.long.toString().length)
       let clickedLat = Number(Math.round(clicked.latLng.lat()+'e'+station.lat.toString().length)+'e-'+station.lat.toString().length)
       if (station.lat.toString() == clickedLat && station.long.toString() == clickedLng) {
@@ -67,13 +82,6 @@ class App extends Component {
   }
 
   render() {
-    let markers = [];
-    if (this.props.stations[0]) {
-      markers = this.props.stations[0].map((station) => {
-        return { position: { lat: station.lat, lng: station.long }, key: station.gridReference, stationReference: station.stationReference, onClick: this.handleMarkerClick }
-      })
-    }
-
     return (
       <div>
         <RainGraph className="row well" rain={this.props.rain} binDenom={this.state.binDenom} binTime={this.state.binTime} />
@@ -82,7 +90,7 @@ class App extends Component {
             <span className="form-group col-xs-12">
               <label className="col-xs-3 col-sm-2 control-label">Station</label>
               <span className="col-xs-9 col-sm-10">
-                <StationSelector stations={this.props.stations} handleChange={this.handleStationChange} value={this.state.stationID} />
+                <StationSelector stations={this.state.stations} handleChange={this.handleStationChange} value={this.state.stationID} />
               </span>
             </span>
             <span className="form-group col-xs-12">
@@ -125,10 +133,14 @@ class App extends Component {
               }
               onMapLoad={_.noop}
               onMapClick={_.noop}
-              markers={markers}
+              markers={this.state.markers}
               onMarkerRightClick={_.noop}
             />
           </div>
+        </div>
+        <div className="row well">
+          <p>This uses Environment Agency flood and river level data from the <a href="http://environment.data.gov.uk/flood-monitoring/doc/reference">real-time data API (Beta)</a></p>
+          <p>Source code can be found on <a href="https://github.com/rhyst/rain-gauge">GitHub</a></p>
         </div>
       </div>
     );

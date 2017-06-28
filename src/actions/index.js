@@ -13,7 +13,6 @@ function zeroPad(num, places) {
 }
 
 export function fetchRain(stationId, lengthTime, lengthDenom) {
-    console.log(`fired ${stationId} ${lengthTime} ${lengthDenom}`)
     let d = new Date();
     switch (lengthDenom) {
         case "days":

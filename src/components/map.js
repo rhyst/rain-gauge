@@ -8,7 +8,7 @@ export const GoogleMapWrapper = withGoogleMap(props => (
     <GoogleMap
         ref={props.onMapLoad}
         defaultZoom={9}
-        defaultCenter={{ lat: 54.18467, lng: -1.901124 }}
+        defaultCenter={{ lat: 54.17, lng: -2.4 }}
         onClick={props.onMapClick}
     >
         {props.markers.map((marker, index) => (
