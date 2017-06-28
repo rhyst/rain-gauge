@@ -32,8 +32,8 @@ class App extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({stations: nextProps.stations});
     let markers = [];
-    if (nextProps.stations[0]) {
-      markers = nextProps.stations[0].map((station) => {
+    if (nextProps.stations) {
+      markers = nextProps.stations.map((station) => {
         if (this.state.stationID == station.stationReference) {
           return { position: { lat: station.lat, lng: station.long }, key: station.gridReference, onClick: this.handleMarkerClick, icon: 'selectedpin.png' }
         } else {
@@ -71,7 +71,7 @@ class App extends Component {
   }
 
   handleMarkerClick(clicked) {
-    let newStations = this.state.stations[0].map((station) => {
+    let newStations = this.state.stations.map((station) => {
       let clickedLng = Number(Math.round(clicked.latLng.lng()+'e'+station.long.toString().length)+'e-'+station.long.toString().length)
       let clickedLat = Number(Math.round(clicked.latLng.lat()+'e'+station.lat.toString().length)+'e-'+station.lat.toString().length)
       if (station.lat.toString() == clickedLat && station.long.toString() == clickedLng) {
@@ -84,6 +84,9 @@ class App extends Component {
   render() {
     return (
       <div>
+        <div className="row">
+          <h1>Rain Gauge</h1>
+        </div>
         <RainGraph className="row well" rain={this.props.rain} binDenom={this.state.binDenom} binTime={this.state.binTime} />
         <div className="row well">
           <form className="form-horizontal col-lg-6 col-xs-12">
@@ -123,20 +126,17 @@ class App extends Component {
               <a href="#" className="btn btn-primary col-xs-4 col-xs-offset-4" onClick={this.handleSubmit}>Submit</a>
             </span>
           </form>
-          <div className="col-xs-12 col-lg-6" style={{ height: "500px" }}>
-            <GoogleMapWrapper
-              containerElement={
-                <div style={{ height: `100%` }} />
-              }
-              mapElement={
-                <div style={{ height: `100%` }} />
-              }
-              onMapLoad={_.noop}
-              onMapClick={_.noop}
-              markers={this.state.markers}
-              onMarkerRightClick={_.noop}
-            />
-          </div>
+          <GoogleMapWrapper
+            containerElement={
+              <div className="col-xs-12 col-lg-6" style={{ height: `500px` }} />
+            }
+            mapElement={
+              <div style={{ height: `100%` }} />
+            }
+            markers={this.state.markers}
+            defaultCenter={{ lat: 54.17, lng: -2.4 }}
+            defaultZoom={9}
+          />
         </div>
         <div className="row well">
           <p>This uses Environment Agency flood and river level data from the <a href="http://environment.data.gov.uk/flood-monitoring/doc/reference">real-time data API (Beta)</a></p>

@@ -20,7 +20,7 @@ export default class StationSelector extends Component {
     }
 
     render() {
-        const stations = this.props.stations[0] || [];
+        const stations = this.props.stations || [];
         return (
             <select className="form-control" onChange={this.handleChange} value={this.props.value}>
                 {stations.map(this.renderStation)}
