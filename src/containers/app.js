@@ -85,10 +85,12 @@ class App extends Component {
     return (
       <div>
         <div className="row">
-          <h1>Rain Gauge</h1>
+          <h1 className="col-xs-12">Rain Gauge</h1>
         </div>
-        <RainGraph className="row well" rain={this.props.rain} binDenom={this.state.binDenom} binTime={this.state.binTime} />
-        <div className="row well">
+        <div className="row">
+          <RainGraph className="col-xs-12" rain={this.props.rain} binDenom={this.state.binDenom} binTime={this.state.binTime} />
+        </div>
+        <div className="row">
           <form className="form-horizontal col-lg-6 col-xs-12">
             <span className="form-group col-xs-12">
               <label className="col-xs-3 col-sm-2 control-label">Station</label>
@@ -138,9 +140,12 @@ class App extends Component {
             defaultZoom={9}
           />
         </div>
-        <div className="row well">
-          <p>This uses Environment Agency flood and river level data from the <a href="http://environment.data.gov.uk/flood-monitoring/doc/reference">real-time data API (Beta)</a></p>
-          <p>Source code can be found on <a href="https://github.com/rhyst/rain-gauge">GitHub</a></p>
+        <div className="row">
+          <div className="col-xs-12">
+            <p></p>
+            <p>This uses Environment Agency flood and river level data from the <a href="http://environment.data.gov.uk/flood-monitoring/doc/reference">real-time data API (Beta)</a></p>
+            <p>Source code can be found on <a href="https://github.com/rhyst/rain-gauge">GitHub</a></p>
+          </div>
         </div>
       </div>
     );
