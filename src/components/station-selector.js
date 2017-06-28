@@ -4,7 +4,6 @@ import Chart from './chart';
 export default class StationSelector extends Component {
     constructor(props) {
         super(props)
-
         this.handleChange = this.handleChange.bind(this);
     }
 

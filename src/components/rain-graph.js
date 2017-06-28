@@ -77,7 +77,7 @@ export default class RainGraph extends Component {
     render() {
         const rain = this.props.rain[0] || []
         return (
-            <div>
+            <div className={this.props.className}>
                 {this.renderRain(rain)}
             </div>
         )

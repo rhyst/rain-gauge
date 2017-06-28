@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import RainGraph from '../components/rain-graph';
 import StationSelector from '../components/station-selector';
+import { GoogleMapWrapper } from '../components/map';
 
 import { fetchRain } from '../actions/index';
 import { fetchStations } from '../actions/index';
@@ -19,6 +21,7 @@ class App extends Component {
     this.handleLengthDenomChange = this.handleLengthDenomChange.bind(this);
     this.handleLengthTimeChange = this.handleLengthTimeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleMarkerClick = this.handleMarkerClick.bind(this);
 
     this.state = { binTime: '1', binDenom: 'days', localBinTime: '1', localBinDenom: 'days', lengthTime: '10', lengthDenom: 'days', stationID: '571479' };
 
@@ -27,7 +30,7 @@ class App extends Component {
   }
 
   handleStationChange(stationID) {
-    this.setState({stationID})
+    this.setState({ stationID })
   }
 
   handleBinDenomChange(event) {
@@ -48,51 +51,85 @@ class App extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({binDenom: this.state.localBinDenom, binTime: this.state.localBinTime})
+    this.setState({ binDenom: this.state.localBinDenom, binTime: this.state.localBinTime })
     this.props.fetchRain(this.state.stationID, this.state.lengthTime, this.state.lengthDenom)
   }
 
+  handleMarkerClick(clicked) {
+    this.props.stations[0].map((station) => {
+      let clickedLng = Number(Math.round(clicked.latLng.lng()+'e'+station.long.toString().length)+'e-'+station.long.toString().length)
+      let clickedLat = Number(Math.round(clicked.latLng.lat()+'e'+station.lat.toString().length)+'e-'+station.lat.toString().length)
+      if (station.lat.toString() == clickedLat && station.long.toString() == clickedLng) {
+        this.setState({ stationID: station.stationReference })
+        this.props.fetchRain(this.state.stationID, this.state.lengthTime, this.state.lengthDenom)
+      }
+    })
+  }
+
   render() {
+    let markers = [];
+    if (this.props.stations[0]) {
+      markers = this.props.stations[0].map((station) => {
+        return { position: { lat: station.lat, lng: station.long }, key: station.gridReference, stationReference: station.stationReference, onClick: this.handleMarkerClick }
+      })
+    }
+
     return (
       <div>
-        <RainGraph rain={this.props.rain} binDenom={this.state.binDenom} binTime={this.state.binTime}/>
-        <form className="form-horizontal col-lg-6 col-xs-12 well col-lg-offset-3">
-          <span className="form-group col-xs-12">
-            <label className="col-xs-2 control-label">Station</label>
-            <span className="col-xs-3">
-              <StationSelector stations={this.props.stations} handleChange={this.handleStationChange} value={this.state.stationID}/>
+        <RainGraph className="row well" rain={this.props.rain} binDenom={this.state.binDenom} binTime={this.state.binTime} />
+        <div className="row well">
+          <form className="form-horizontal col-lg-6 col-xs-12">
+            <span className="form-group col-xs-12">
+              <label className="col-xs-3 col-sm-2 control-label">Station</label>
+              <span className="col-xs-9 col-sm-10">
+                <StationSelector stations={this.props.stations} handleChange={this.handleStationChange} value={this.state.stationID} />
+              </span>
             </span>
-          </span>
-          <span className="form-group col-xs-12">
-            <label className="col-xs-2 control-label">Binning</label>
-            <span className="col-xs-5">
-              <input type="text" value={this.state.localBinTime} className="form-control" onChange={this.handleBinTimeChange}></input>
+            <span className="form-group col-xs-12">
+              <label className="col-xs-3 col-sm-2 control-label">Binning</label>
+              <span className="col-xs-4 col-sm-5">
+                <input type="text" value={this.state.localBinTime} className="form-control" onChange={this.handleBinTimeChange}></input>
+              </span>
+              <span className="col-xs-5">
+                <select className="form-control" value={this.state.localBinDenom} onChange={this.handleBinDenomChange}>
+                  <option value="days">Days</option>
+                  <option value="hours">Hours</option>
+                  <option value="minutes">Minutes</option>
+                </select>
+              </span>
             </span>
-            <span className="col-xs-5">
-              <select className="form-control" value={this.state.localBinDenom} onChange={this.handleBinDenomChange}>
-                <option value="days">Days</option>
-                <option value="hours">Hours</option>
-                <option value="minutes">Minutes</option>
-              </select>
+            <span className="form-group col-xs-12">
+              <label className="col-xs-3 col-sm-2 control-label">Length</label>
+              <span className="col-xs-4 col-sm-5">
+                <input type="text" value={this.state.lengthTime} className="form-control" onChange={this.handleLengthTimeChange}></input>
+              </span>
+              <span className="col-xs-5">
+                <select className="form-control" value={this.state.lengthDenom} onChange={this.handleLengthDenomChange}>
+                  <option value="days">Days</option>
+                  <option value="hours">Hours</option>
+                  <option value="minutes">Minutes</option>
+                </select>
+              </span>
             </span>
-          </span>
-          <span className="form-group col-xs-12">
-            <label className="col-xs-2 control-label">Length</label>
-            <span className="col-xs-5">
-              <input type="text" value={this.state.lengthTime} className="form-control" onChange={this.handleLengthTimeChange}></input>
+            <span className="form-group col-xs-12">
+              <a href="#" className="btn btn-primary col-xs-4 col-xs-offset-4" onClick={this.handleSubmit}>Submit</a>
             </span>
-            <span className="col-xs-5">
-              <select className="form-control" value={this.state.lengthDenom} onChange={this.handleLengthDenomChange}>
-                <option value="days">Days</option>
-                <option value="hours">Hours</option>
-                <option value="minutes">Minutes</option>
-              </select>
-            </span>
-          </span>
-          <span className="form-group col-xs-12">
-            <a href="#" className="btn btn-primary col-xs-3" onClick={this.handleSubmit}>Submit</a>
-          </span>
-        </form>
+          </form>
+          <div className="col-xs-12 col-lg-6" style={{ height: "500px" }}>
+            <GoogleMapWrapper
+              containerElement={
+                <div style={{ height: `100%` }} />
+              }
+              mapElement={
+                <div style={{ height: `100%` }} />
+              }
+              onMapLoad={_.noop}
+              onMapClick={_.noop}
+              markers={markers}
+              onMarkerRightClick={_.noop}
+            />
+          </div>
+        </div>
       </div>
     );
   }

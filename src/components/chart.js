@@ -4,7 +4,7 @@ import { ResponsiveContainer, BarChart, Bar, YAxis, XAxis, CustomBarLabel, Toolt
 const CustomizedLabel = React.createClass({
     render() {
         const { x, y, stroke, value } = this.props;
-        return <text x={x} y={y} fill="#666" className="recharts-text recharts-label" textAnchor="middle"><tspan x={35}>{value}</tspan></text>
+        return <text x={x} y={y} fill="#666" className="recharts-text recharts-label" textAnchor="middle" transform="rotate(-90)"><tspan x={-170}>{value}</tspan></text>
     }
 });
 const CustomizedAxisTick = React.createClass({
@@ -24,7 +24,7 @@ export default (props) => {
         <ResponsiveContainer width="100%" height={500}>
             <BarChart data={props.data} barGap={0}  barCategoryGap={0}>
                 <XAxis dataKey="date" tick={<CustomizedAxisTick />} height={150} interval={0} />
-                <YAxis unit="mm" label={<CustomizedLabel x={35} y={75} value="Rainfall" />} width={100} />
+                <YAxis unit="mm" label={<CustomizedLabel x={35} y={10} value="Rainfall/mm" />} width={30} />
                 <Tooltip />
                 <Bar type="monotone" dataKey="value" fill="#4286f4" />
             </BarChart>
