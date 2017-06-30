@@ -23,7 +23,7 @@ export default (props) => {
     return (
         <ResponsiveContainer width="100%" height={500}>
             <BarChart data={props.data} barGap={0}  barCategoryGap={0}>
-                <XAxis dataKey="date" tick={<CustomizedAxisTick />} height={150} interval={0} />
+                <XAxis dataKey="date" tick={<CustomizedAxisTick />} height={180} interval={0} />
                 <YAxis unit="mm" label={<CustomizedLabel x={35} y={10} value="Rainfall/mm" />} width={30} />
                 <Tooltip />
                 <Bar type="monotone" dataKey="value" fill="#4286f4" />
