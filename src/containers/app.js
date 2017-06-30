@@ -93,17 +93,17 @@ class App extends Component {
         <div className="row">
           <form className="form-horizontal col-lg-6 col-xs-12">
             <span className="form-group col-xs-12">
-              <label className="col-xs-3 col-sm-2 control-label">Station</label>
-              <span className="col-xs-9 col-sm-10">
+              <label className="col-xs-12 col-sm-2 control-label">Station</label>
+              <span className="col-xs-12 col-sm-10">
                 <StationSelector stations={this.state.stations} handleChange={this.handleStationChange} value={this.state.stationID} />
               </span>
             </span>
             <span className="form-group col-xs-12">
-              <label className="col-xs-3 col-sm-2 control-label">Binning</label>
-              <span className="col-xs-4 col-sm-5">
+              <label className="col-xs-12 col-sm-2 control-label">Binning</label>
+              <span className="col-xs-5 col-sm-5">
                 <input type="text" value={this.state.localBinTime} className="form-control" onChange={this.handleBinTimeChange}></input>
               </span>
-              <span className="col-xs-5">
+              <span className="col-xs-7 col-sm-5">
                 <select className="form-control" value={this.state.localBinDenom} onChange={this.handleBinDenomChange}>
                   <option value="days">Days</option>
                   <option value="hours">Hours</option>
@@ -112,11 +112,11 @@ class App extends Component {
               </span>
             </span>
             <span className="form-group col-xs-12">
-              <label className="col-xs-3 col-sm-2 control-label">Length</label>
-              <span className="col-xs-4 col-sm-5">
+              <label className="col-xs-12 col-sm-2 control-label">Length</label>
+              <span className="col-xs-5">
                 <input type="text" value={this.state.lengthTime} className="form-control" onChange={this.handleLengthTimeChange}></input>
               </span>
-              <span className="col-xs-5">
+              <span className="col-xs-7 col-sm-5">
                 <select className="form-control" value={this.state.lengthDenom} onChange={this.handleLengthDenomChange}>
                   <option value="days">Days</option>
                   <option value="hours">Hours</option>
