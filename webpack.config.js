@@ -1,5 +1,5 @@
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: [
     './src/index.js'
@@ -19,13 +19,18 @@ module.exports = {
     }]
   },
   plugins: [
-    new UglifyJSPlugin()
+    new UglifyJSPlugin(),
+    new CopyWebpackPlugin([
+      {from: 'style', to: 'style'},
+      {from: 'index.html', to: 'index.html'},
+      {from: 'selectedpin.png', to: 'selectedpin.png'}
+    ])
   ],
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './'
+    contentBase: './build/'
   }
 };
