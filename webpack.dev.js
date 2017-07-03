@@ -1,6 +1,6 @@
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
+  devtool: 'cheap-module-source-map',
   entry: [
     './src/index.js'
   ],
@@ -19,7 +19,6 @@ module.exports = {
     }]
   },
   plugins: [
-    new UglifyJSPlugin(),
     new CopyWebpackPlugin([
       {from: 'style', to: 'style'},
       {from: 'index.html', to: 'index.html'},
