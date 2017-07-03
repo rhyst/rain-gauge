@@ -3,7 +3,6 @@ bundle.js
 /build
 npm-debug.log
 .DS_Store
-package-lock.json
 
 # IntelliJ
 *.iml
