@@ -28,8 +28,8 @@ export function fetchRain(stationId, lengthTime, lengthDenom) {
             break;
     }
     let sinceDate = d.getFullYear().toString() + "-" + 
-                    ((d.getMonth() + 1).toString()[0] == "0" ? (d.getMonth() + 1).toString()[0] : "0" + (d.getMonth() + 1).toString()[0]) + "-" + 
-                    zeroPad(d.getDate().toString(),2) + "T" + 
+                    zeroPad(d.getMonth(), 2) + "-" + 
+                    zeroPad(d.getDate(),2) + "T" + 
                     zeroPad(d.getHours(),2) + ":" + 
                     zeroPad(d.getMinutes(),2) + ":00Z";
 
