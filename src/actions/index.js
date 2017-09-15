@@ -27,7 +27,11 @@ export function fetchRain(stationId, lengthTime, lengthDenom) {
             d.setMinutes(d.getMinutes() - lenghtTime);
             break;
     }
-    let sinceDate = d.getFullYear().toString() + "-" + ((d.getMonth() + 1).toString()[0] == "0" ? (d.getMonth() + 1).toString()[0] : "0" + (d.getMonth() + 1).toString()[0]) + "-" + d.getDate().toString() + "T" + zeroPad(d.getHours(),2) + ":" + zeroPad(d.getMinutes(),2) + ":00Z";
+    let sinceDate = d.getFullYear().toString() + "-" + 
+                    ((d.getMonth() + 1).toString()[0] == "0" ? (d.getMonth() + 1).toString()[0] : "0" + (d.getMonth() + 1).toString()[0]) + "-" + 
+                    zeroPad(d.getDate().toString(),2) + "T" + 
+                    zeroPad(d.getHours(),2) + ":" + 
+                    zeroPad(d.getMinutes(),2) + ":00Z";
 
     const url = `${ROOT_URL}${stationId}${RAIN_PARAMS}&since=${sinceDate}`;
     const request = axios.get(url);
