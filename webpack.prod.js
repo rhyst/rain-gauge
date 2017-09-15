@@ -8,18 +8,6 @@ module.exports = Merge.strategy({plugins: 'replace'})(config, {
     output: {
         filename: "bundle.min.js"
     },
-    module: {
-        loaders: [
-            {
-                test: /index\.html$/,
-                loader: "string-replace",
-                query: {
-                    search: "bundle.js",
-                    replace: "bundle.min.js"
-                }
-            }
-        ]
-    },
     plugins: [
         new webpack.optimize.UglifyJsPlugin(),
         new webpack.DefinePlugin({
