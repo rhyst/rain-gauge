@@ -10,7 +10,7 @@ Run npm install to get dependencies
 
 Run webpack to build bundle.js
 
-    webpack
+    webpack --config [ webpack.dev.js | webpack.prod.js ]
 
 Then serve the necessary files using a web serving solution of your choice
 
