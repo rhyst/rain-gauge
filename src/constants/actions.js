@@ -1,0 +1,4 @@
+export default {
+  FETCH_RAIN: "FETCH_RAIN",
+  FETCH_STATIONS: "FETCH_STATIONS"
+};
