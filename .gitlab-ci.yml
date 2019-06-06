@@ -2,8 +2,8 @@ image: node:latest
 
 pages:
   script:
-  - npm install
-  - npm build -d public
+    - npm install
+    - npm run build
   artifacts:
     paths:
-    - public
+      - public
