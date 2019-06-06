@@ -40,8 +40,14 @@ class App extends Component {
             <Title>Rainfall Data</Title>
             <Content>
               <p>
-                Select a measurement station below for live visualisation of the
-                Environment Agency rainfall data.
+                The Environment Agency has approximately 1000 real time rain
+                gauges which are connected by telemetry. Measurements of the
+                amount of precipitation (mm) are captured in Tipping Bucket
+                Raingauges (TBR).
+              </p>
+              <p>
+                Gauges are listed below by their grid reference. Select a gauge
+                for live visualisation of rainfall data.
               </p>
             </Content>
             <Selector />
