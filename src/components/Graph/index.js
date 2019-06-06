@@ -13,7 +13,6 @@ import { Content, Columns, Column } from "bloomer";
 
 import CustomTooltip from "./Tooltip";
 import renderCustomAxisTick from "./Tick";
-import Colours from "../../constants/colours";
 
 class Chart extends Component {
   static propTypes = {

@@ -2,12 +2,7 @@ import React from "react";
 import { Box, Content } from "bloomer";
 
 import PropTypes from "prop-types";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 import Dayjs from "dayjs";
-
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo("en-GB");
 
 const CustomTooltip = props => {
   const { active, payload, label } = props;

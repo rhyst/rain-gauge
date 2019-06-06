@@ -1,18 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Container, Section, Content, Title } from "bloomer";
+import {
+  Container,
+  Section,
+  Content,
+  Title,
+  Notification,
+  Delete
+} from "bloomer";
 import PropTypes from "prop-types";
 
-import { Graph, Selector } from "./components";
-import { fetchRain, fetchStations } from "./redux/actions";
+import { Graph, Selector, Progress } from "./components";
+import { fetchRain, fetchStations, clearRainError } from "./redux/actions";
 
 const defaultStation = 571479;
 
 class App extends Component {
   static propTypes = {
-    rain: PropTypes.array,
+    rain: PropTypes.shape({
+      data: PropTypes.array,
+      loading: PropTypes.bool,
+      error: PropTypes.bool
+    }),
     fetchRain: PropTypes.func,
-    fetchStations: PropTypes.func
+    fetchStations: PropTypes.func,
+    clearRainError: PropTypes.func
   };
 
   constructor(props) {
@@ -33,8 +45,21 @@ class App extends Component {
               </p>
             </Content>
             <Selector />
-            <Graph data={this.props.rain} />
+            {this.props.rain.loading ? (
+              <Progress />
+            ) : (
+              <div className="progress-placeholder" />
+            )}
+            <Graph data={this.props.rain.data} />
           </Container>
+        </Section>
+        <Section>
+          {this.props.rain.error && (
+            <Notification isColor="danger" onClick={this.props.clearRainError}>
+              <Delete />
+              An error occured when fetching rainfall data. Please try again.
+            </Notification>
+          )}
         </Section>
         <Section style={{ marginTop: "auto" }}>
           <Container>
@@ -43,7 +68,7 @@ class App extends Component {
                 This uses Environment Agency flood and river level data from the
                 real-time data API (Beta)
               </p>
-            </Content>{" "}
+            </Content>
           </Container>
         </Section>
       </>
@@ -55,5 +80,5 @@ export default connect(
   state => ({
     rain: state.rain
   }),
-  { fetchRain, fetchStations }
+  { fetchRain, fetchStations, clearRainError }
 )(App);
