@@ -4,6 +4,10 @@ A simple SPA to show rainfall data from the [Environment Agency](https://environ
 
     The Environment Agency has approximately 1000 real time rain gauges which are connected by telemetry. Measurements of the amount of precipitation (mm) are captured in Tipping Bucket Raingauges (TBR). The data reported here gives accumulated totals for each 15 min period. The data is typically transfered once or twice per day.
 
+## Try
+
+Try the app [here](https://rhyst.gitlab.io/rainfall/).
+
 ## Install
 
 To install dependencies:
