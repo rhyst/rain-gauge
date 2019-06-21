@@ -57,3 +57,18 @@ export const fetchStations = () => async dispatch => {
     dispatch({ type: Actions.ERROR_STATIONS });
   }
 };
+
+export const setStation = station => ({
+  type: Actions.SET_STATION,
+  payload: station
+});
+
+export const setDuration = duration => ({
+  type: Actions.SET_DURATION,
+  payload: duration
+});
+
+export const setDenomination = denomination => ({
+  type: Actions.SET_DENOMINATION,
+  payload: denomination
+});

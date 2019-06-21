@@ -10,7 +10,7 @@ import {
 } from "bloomer";
 import PropTypes from "prop-types";
 
-import { Graph, Selector, Progress } from "./components";
+import { Graph, Selector, Progress, LeafletMap } from "./components";
 import { fetchRain, fetchStations, clearRainError } from "./redux/actions";
 
 const defaultStation = 571479;
@@ -59,13 +59,16 @@ class App extends Component {
             <Graph data={this.props.rain.data} />
           </Container>
         </Section>
-        <Section>
-          {this.props.rain.error && (
+        {this.props.rain.error && (
+          <Section>
             <Notification isColor="danger" onClick={this.props.clearRainError}>
               <Delete />
               An error occured when fetching rainfall data. Please try again.
             </Notification>
-          )}
+          </Section>
+        )}
+        <Section>
+          <LeafletMap />
         </Section>
         <Section style={{ marginTop: "auto" }}>
           <Container>

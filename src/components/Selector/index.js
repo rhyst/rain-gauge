@@ -11,33 +11,44 @@ import {
 } from "bloomer";
 import PropTypes from "prop-types";
 
-import { fetchRain, fetchStations } from "../../redux/actions";
-
-const defaultStation = 571479;
-const defaultTime = 1;
-const defaultDenomination = "days";
+import {
+  fetchRain,
+  fetchStations,
+  setStation,
+  setDenomination,
+  setDuration
+} from "../../redux/actions";
 
 class Selector extends Component {
   static propTypes = {
     stations: PropTypes.array,
     fetchRain: PropTypes.func,
     fetchStations: PropTypes.func,
+    setStation: PropTypes.func,
+    setDuration: PropTypes.func,
+    setDenomination: PropTypes.func,
     rain: PropTypes.shape({
       data: PropTypes.array,
       loading: PropTypes.bool,
       error: PropTypes.bool
+    }),
+    ui: PropTypes.shape({
+      station: PropTypes.string,
+      duration: PropTypes.number,
+      denomination: PropTypes.string
     })
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      station: defaultStation,
-      time: defaultTime,
-      denomination: defaultDenomination,
       polling: false
     };
-    this.props.fetchRain(defaultStation);
+    this.props.fetchRain(
+      this.props.ui.station,
+      this.props.ui.duration,
+      this.props.ui.denomination
+    );
     this.props.fetchStations();
   }
 
@@ -51,7 +62,11 @@ class Selector extends Component {
     if (polling) {
       this.props.fetchRain();
       this.interval = setInterval(() => {
-        this.props.fetchRain();
+        this.props.fetchRain(
+          this.props.ui.station,
+          this.props.ui.duration,
+          this.props.ui.denomination
+        );
       }, 15 * 60 * 1000);
     }
   };
@@ -64,8 +79,8 @@ class Selector extends Component {
             <Label>Station</Label>
             <Select
               disabled={!this.props.stations.length}
-              value={this.state.station}
-              onChange={event => this.setState({ station: event.target.value })}
+              value={this.props.ui.station}
+              onChange={event => this.props.setStation(event.target.value)}
             >
               {this.props.stations.map(station => (
                 <option
@@ -82,17 +97,15 @@ class Selector extends Component {
             <Input
               type="number"
               style={{ width: "80px" }}
-              value={this.state.time}
-              onChange={event => this.setState({ time: event.target.value })}
+              value={this.props.ui.duration}
+              onChange={event => this.props.setDuration(event.target.value)}
             />
           </Control>
 
           <Control>
             <Select
-              value={this.state.denomination}
-              onChange={event =>
-                this.setState({ denomination: event.target.value })
-              }
+              value={this.props.ui.denomination}
+              onChange={event => this.props.setDenomination(event.target.value)}
             >
               <option value={"days"}>Days</option>
               <option value={"hours"}>Hours</option>
@@ -104,9 +117,9 @@ class Selector extends Component {
             className="fetch-button"
             onClick={() =>
               this.props.fetchRain(
-                this.state.station,
-                this.state.time,
-                this.state.denomination
+                this.props.ui.station,
+                this.props.ui.duration,
+                this.props.ui.denomination
               )
             }
             isColor="primary"
@@ -129,7 +142,8 @@ class Selector extends Component {
 export default connect(
   state => ({
     rain: state.rain,
-    stations: state.stations
+    stations: state.stations,
+    ui: state.ui
   }),
-  { fetchRain, fetchStations }
+  { fetchRain, fetchStations, setDenomination, setDuration, setStation }
 )(Selector);
