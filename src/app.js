@@ -68,7 +68,9 @@ class App extends Component {
           </Section>
         )}
         <Section>
-          <LeafletMap />
+          <Container>
+            <LeafletMap />
+          </Container>
         </Section>
         <Section style={{ marginTop: "auto" }}>
           <Container>
