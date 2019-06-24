@@ -1,0 +1,18 @@
+version: "3.4"
+services:
+  rain:
+    build:
+      context: ${SERVER}/services/rain
+    image: apps/rain
+    container_name: rain
+    environment:
+      - VIRTUAL_HOST=rain.tyers.io,rain.rhystyers.com
+      - LETSENCRYPT_HOST=rain.tyers.io,rain.rhystyers.com
+      - LETSENCRYPT_EMAIL=rhystyers1@gmail.com
+      - HSTS=off
+    networks:
+      - ${NGINX_PROXY_NETWORK}
+    restart: always
+    depends_on:
+      - "${NGINX_PROXY_NAME}"
+      - "${NGINX_PROXY_LETSENCRYPT_NAME}"

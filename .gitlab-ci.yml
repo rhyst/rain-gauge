@@ -1,6 +1,34 @@
-image: node:latest
+image: kroniak/ssh-client
+variables:
+  GIT_STRATEGY: none
+
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan tyers.io >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+
+stages:
+  - Deploy
+
+docker build:
+  stage: Deploy
+  script:
+    - |
+      ssh server@tyers.io <<'ENDSSH'
+      cd /srv/server
+      ./deploy
+      docker-compose up -d --build rain
+      ENDSSH
+  only:
+    refs:
+      - master
 
 pages:
+  stage: Deploy
+  image: node:latest
   script:
     - npm install
     - npm run build
