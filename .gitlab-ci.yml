@@ -25,13 +25,3 @@ docker build:
   only:
     refs:
       - master
-
-pages:
-  stage: Deploy
-  image: node:latest
-  script:
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - public

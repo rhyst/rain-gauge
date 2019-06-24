@@ -6,7 +6,7 @@ A simple SPA to show rainfall data from the [Environment Agency](https://environ
 
 ## Try
 
-Try the app [here](https://rhyst.gitlab.io/rainfall/).
+Try the app [here](https://rain.tyers.io/).
 
 ## Install
 
