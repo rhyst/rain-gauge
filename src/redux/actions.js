@@ -4,7 +4,8 @@ import Actions from "../constants/actions";
 const ROOT_URL = `https://environment.data.gov.uk/flood-monitoring/id/stations/`;
 const RAIN_PARAMS = `/readings?parameter=rainfall&_sorted&_limit=5000`;
 // Gets nearest statons to arbitrary point in Yorkshire
-const STATION_PARAMS = `?parameter=rainfall&_limit=100&lat=54.119047&long=-2.396646&dist=40`;
+const STATION_PARAMS = (lat, lng) =>
+  `?parameter=rainfall&_limit=100&lat=${lat}&long=${lng}&dist=40`;
 
 export const fetchRain = (
   stationId = 571479,
@@ -43,10 +44,15 @@ export const fetchRain = (
 
 export const clearRainError = () => ({ type: Actions.CLEAR_ERROR_RAIN });
 
-export const fetchStations = () => async dispatch => {
+export const setStationsCentre = location => ({
+  type: Actions.SET_STATIONS_CENTRE,
+  payload: location
+});
+
+export const fetchStations = ({ lat, lng }) => async dispatch => {
   dispatch({ type: Actions.LOADING_STATIONS });
   try {
-    const url = `${ROOT_URL}${STATION_PARAMS}`;
+    const url = `${ROOT_URL}${STATION_PARAMS(lat, lng)}`;
     const result = await axios.get(url);
 
     dispatch({

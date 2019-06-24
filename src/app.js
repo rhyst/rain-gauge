@@ -13,8 +13,6 @@ import PropTypes from "prop-types";
 import { Graph, Selector, Progress, LeafletMap } from "./components";
 import { fetchRain, fetchStations, clearRainError } from "./redux/actions";
 
-const defaultStation = 571479;
-
 class App extends Component {
   static propTypes = {
     rain: PropTypes.shape({
@@ -24,12 +22,29 @@ class App extends Component {
     }),
     fetchRain: PropTypes.func,
     fetchStations: PropTypes.func,
-    clearRainError: PropTypes.func
+    clearRainError: PropTypes.func,
+    ui: PropTypes.shape({
+      station: PropTypes.string,
+      duration: PropTypes.number,
+      denomination: PropTypes.string
+    }),
+    stations: PropTypes.shape({
+      stations: PropTypes.array,
+      stationsCentre: PropTypes.shape({
+        lat: PropTypes.number,
+        lng: PropTypes.number
+      })
+    })
   };
 
   constructor(props) {
     super(props);
-    this.props.fetchRain(defaultStation);
+    this.props.fetchRain(
+      this.props.ui.station,
+      this.props.ui.duration,
+      this.props.ui.denomination
+    );
+    this.props.fetchStations(this.props.stations.stationsCentre);
   }
 
   render() {
@@ -89,7 +104,9 @@ class App extends Component {
 
 export default connect(
   state => ({
-    rain: state.rain
+    rain: state.rain,
+    ui: state.ui,
+    stations: state.stations
   }),
   { fetchRain, fetchStations, clearRainError }
 )(App);

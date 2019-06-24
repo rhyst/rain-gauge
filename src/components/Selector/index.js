@@ -21,7 +21,13 @@ import {
 
 class Selector extends Component {
   static propTypes = {
-    stations: PropTypes.array,
+    stations: PropTypes.shape({
+      stations: PropTypes.array,
+      stationsCentre: PropTypes.shape({
+        lat: PropTypes.number,
+        lng: PropTypes.number
+      })
+    }),
     fetchRain: PropTypes.func,
     fetchStations: PropTypes.func,
     setStation: PropTypes.func,
@@ -44,12 +50,6 @@ class Selector extends Component {
     this.state = {
       polling: false
     };
-    this.props.fetchRain(
-      this.props.ui.station,
-      this.props.ui.duration,
-      this.props.ui.denomination
-    );
-    this.props.fetchStations();
   }
 
   handleCheck = event => {
@@ -78,11 +78,11 @@ class Selector extends Component {
           <Control>
             <Label>Station</Label>
             <Select
-              disabled={!this.props.stations.length}
+              disabled={!this.props.stations.stations.length}
               value={this.props.ui.station}
               onChange={event => this.props.setStation(event.target.value)}
             >
-              {this.props.stations.map(station => (
+              {this.props.stations.stations.map(station => (
                 <option
                   key={station.stationReference}
                   value={station.stationReference}
