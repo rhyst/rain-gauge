@@ -18,9 +18,9 @@ docker build:
   script:
     - |
       ssh server@tyers.io <<'ENDSSH'
-      cd /srv/server
-      ./deploy
-      docker-compose up -d --build rain
+      cd /var/www/apps/rain
+      npm i
+      npm run build
       ENDSSH
   only:
     refs:
