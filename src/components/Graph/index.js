@@ -6,7 +6,7 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Tooltip
+  Tooltip,
 } from "recharts";
 import PropTypes from "prop-types";
 import { Content, Columns, Column } from "bloomer";
@@ -16,7 +16,7 @@ import renderCustomAxisTick from "./Tick";
 
 class Chart extends Component {
   static propTypes = {
-    data: PropTypes.array.isRequired
+    data: PropTypes.array.isRequired,
   };
 
   constructor(props) {

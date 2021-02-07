@@ -36,7 +36,8 @@
   },
   "scripts": {
     "dev": "parcel index.html",
-    "build": "parcel build --out-dir public --public-url ./ index.html"
+    "build": "parcel build --out-dir public --public-url ./ index.html",
+    "publish": "parcel build --out-dir docs --public-url ./ index.html"
   },
   "browserslist": [
     "since 2017-06"

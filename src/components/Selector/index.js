@@ -7,7 +7,7 @@ import {
   Control,
   Field,
   Input,
-  Checkbox
+  Checkbox,
 } from "bloomer";
 import PropTypes from "prop-types";
 
@@ -16,7 +16,9 @@ import {
   fetchStations,
   setStation,
   setDenomination,
-  setDuration
+  setDuration,
+  setBinDenomination,
+  setBinDuration,
 } from "../../redux/actions";
 
 class Selector extends Component {
@@ -25,34 +27,38 @@ class Selector extends Component {
       stations: PropTypes.array,
       stationsCentre: PropTypes.shape({
         lat: PropTypes.number,
-        lng: PropTypes.number
-      })
+        lng: PropTypes.number,
+      }),
     }),
     fetchRain: PropTypes.func,
     fetchStations: PropTypes.func,
     setStation: PropTypes.func,
     setDuration: PropTypes.func,
     setDenomination: PropTypes.func,
+    setBinDuration: PropTypes.func,
+    setBinDenomination: PropTypes.func,
     rain: PropTypes.shape({
       data: PropTypes.array,
       loading: PropTypes.bool,
-      error: PropTypes.bool
+      error: PropTypes.bool,
+      binDuration: PropTypes.number,
+      binDenomination: PropTypes.string,
     }),
     ui: PropTypes.shape({
       station: PropTypes.string,
       duration: PropTypes.number,
-      denomination: PropTypes.string
-    })
+      denomination: PropTypes.string,
+    }),
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      polling: false
+      polling: false,
     };
   }
 
-  handleCheck = event => {
+  handleCheck = (event) => {
     const polling = event.target.checked;
     this.setState({ polling });
     if (this.interval) {
@@ -80,9 +86,9 @@ class Selector extends Component {
             <Select
               disabled={!this.props.stations.stations.length}
               value={this.props.ui.station}
-              onChange={event => this.props.setStation(event.target.value)}
+              onChange={(event) => this.props.setStation(event.target.value)}
             >
-              {this.props.stations.stations.map(station => (
+              {this.props.stations.stations.map((station) => (
                 <option
                   key={station.stationReference}
                   value={station.stationReference}
@@ -98,14 +104,16 @@ class Selector extends Component {
               type="number"
               style={{ width: "80px" }}
               value={this.props.ui.duration}
-              onChange={event => this.props.setDuration(event.target.value)}
+              onChange={(event) => this.props.setDuration(event.target.value)}
             />
           </Control>
 
           <Control>
             <Select
               value={this.props.ui.denomination}
-              onChange={event => this.props.setDenomination(event.target.value)}
+              onChange={(event) =>
+                this.props.setDenomination(event.target.value)
+              }
             >
               <option value={"days"}>Days</option>
               <option value={"hours"}>Hours</option>
@@ -127,6 +135,45 @@ class Selector extends Component {
             Fetch
           </Button>
         </Field>
+        <Field isHorizontal style={{ alignItems: "flex-end" }}>
+          <Control>
+            <Label>Binning</Label>
+            {this.props.rain.binDenomination === "minutes" ? (
+              <Select
+                value={this.props.rain.binDuration}
+                onChange={(event) =>
+                  this.props.setBinDuration(event.target.value)
+                }
+              >
+                <option value={15}>15</option>
+                <option value={30}>30</option>
+                <option value={45}>45</option>
+              </Select>
+            ) : (
+              <Input
+                type="number"
+                style={{ width: "80px" }}
+                value={this.props.rain.binDuration}
+                onChange={(event) =>
+                  this.props.setBinDuration(event.target.value)
+                }
+              />
+            )}
+          </Control>
+          <Control>
+            <Select
+              value={this.props.rain.binDenomination}
+              onChange={(event) =>
+                this.props.setBinDenomination(event.target.value)
+              }
+            >
+              <option value={"days"}>Days</option>
+              <option value={"hours"}>Hours</option>
+              <option value={"minutes"}>Minutes</option>
+            </Select>
+          </Control>
+        </Field>
+
         <Field isHorizontal>
           <Control>
             <Checkbox value={this.state.polling} onChange={this.handleCheck}>
@@ -140,10 +187,18 @@ class Selector extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     rain: state.rain,
     stations: state.stations,
-    ui: state.ui
+    ui: state.ui,
   }),
-  { fetchRain, fetchStations, setDenomination, setDuration, setStation }
+  {
+    fetchRain,
+    fetchStations,
+    setDenomination,
+    setDuration,
+    setStation,
+    setBinDenomination,
+    setBinDuration,
+  }
 )(Selector);

@@ -11,7 +11,7 @@ export const fetchRain = (
   stationId = 571479,
   lengthTime = 1,
   lengthDenom = "days"
-) => async dispatch => {
+) => async (dispatch) => {
   dispatch({ type: Actions.LOADING_RAIN });
   try {
     let d = new Date();
@@ -35,7 +35,7 @@ export const fetchRain = (
 
     dispatch({
       type: Actions.FETCH_RAIN,
-      payload: result.data.items
+      payload: result.data.items,
     });
   } catch (e) {
     dispatch({ type: Actions.ERROR_RAIN });
@@ -44,12 +44,12 @@ export const fetchRain = (
 
 export const clearRainError = () => ({ type: Actions.CLEAR_ERROR_RAIN });
 
-export const setStationsCentre = location => ({
+export const setStationsCentre = (location) => ({
   type: Actions.SET_STATIONS_CENTRE,
-  payload: location
+  payload: location,
 });
 
-export const fetchStations = ({ lat, lng }) => async dispatch => {
+export const fetchStations = ({ lat, lng }) => async (dispatch) => {
   dispatch({ type: Actions.LOADING_STATIONS });
   try {
     const url = `${ROOT_URL}${STATION_PARAMS(lat, lng)}`;
@@ -57,24 +57,49 @@ export const fetchStations = ({ lat, lng }) => async dispatch => {
 
     dispatch({
       type: Actions.FETCH_STATIONS,
-      payload: result.data.items
+      payload: result.data.items,
     });
   } catch (e) {
     dispatch({ type: Actions.ERROR_STATIONS });
   }
 };
 
-export const setStation = station => ({
-  type: Actions.SET_STATION,
-  payload: station
-});
+export const setStation = (station) => {
+  window.localStorage.setItem("station", station);
+  return {
+    type: Actions.SET_STATION,
+    payload: station,
+  };
+};
 
-export const setDuration = duration => ({
-  type: Actions.SET_DURATION,
-  payload: duration
-});
+export const setDuration = (duration) => {
+  window.localStorage.setItem("duration", duration);
+  return {
+    type: Actions.SET_DURATION,
+    payload: duration,
+  };
+};
 
-export const setDenomination = denomination => ({
-  type: Actions.SET_DENOMINATION,
-  payload: denomination
-});
+export const setDenomination = (denomination) => {
+  window.localStorage.setItem("denomination", denomination);
+  return {
+    type: Actions.SET_DENOMINATION,
+    payload: denomination,
+  };
+};
+
+export const setBinDuration = (duration) => {
+  window.localStorage.setItem("binDuration", duration);
+  return {
+    type: Actions.SET_BIN_DURATION,
+    payload: duration,
+  };
+};
+
+export const setBinDenomination = (denomination) => {
+  window.localStorage.setItem("binDenomination", denomination);
+  return {
+    type: Actions.SET_BIN_DENOMINATION,
+    payload: denomination,
+  };
+};

@@ -6,7 +6,7 @@ import {
   Content,
   Title,
   Notification,
-  Delete
+  Delete,
 } from "bloomer";
 import PropTypes from "prop-types";
 
@@ -18,7 +18,7 @@ class App extends Component {
     rain: PropTypes.shape({
       data: PropTypes.array,
       loading: PropTypes.bool,
-      error: PropTypes.bool
+      error: PropTypes.bool,
     }),
     fetchRain: PropTypes.func,
     fetchStations: PropTypes.func,
@@ -26,15 +26,15 @@ class App extends Component {
     ui: PropTypes.shape({
       station: PropTypes.string,
       duration: PropTypes.number,
-      denomination: PropTypes.string
+      denomination: PropTypes.string,
     }),
     stations: PropTypes.shape({
       stations: PropTypes.array,
       stationsCentre: PropTypes.shape({
         lat: PropTypes.number,
-        lng: PropTypes.number
-      })
-    })
+        lng: PropTypes.number,
+      }),
+    }),
   };
 
   constructor(props) {
@@ -84,6 +84,12 @@ class App extends Component {
         )}
         <Section>
           <Container>
+            <Content>
+              <p>
+                Click on an icon on the map to change station or click anywhere
+                else on the map to fetch the stations near that point.
+              </p>
+            </Content>
             <LeafletMap />
           </Container>
         </Section>
@@ -103,10 +109,10 @@ class App extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     rain: state.rain,
     ui: state.ui,
-    stations: state.stations
+    stations: state.stations,
   }),
   { fetchRain, fetchStations, clearRainError }
 )(App);

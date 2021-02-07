@@ -4,7 +4,7 @@ import { Box, Content } from "bloomer";
 import PropTypes from "prop-types";
 import Dayjs from "dayjs";
 
-const CustomTooltip = props => {
+const CustomTooltip = (props) => {
   const { active, payload, label } = props;
 
   if (active && payload) {
@@ -15,7 +15,7 @@ const CustomTooltip = props => {
           <p>
             <strong>{dayjs.format("YYYY-MM-DD HH:mm")}</strong>
           </p>
-          <p>Rain: {payload[0].value} mm</p>
+          <p>Rain: {payload[0].value.toPrecision(2)} mm</p>
         </Content>
       </Box>
     );
@@ -28,7 +28,7 @@ CustomTooltip.propTypes = {
   active: PropTypes.bool,
   type: PropTypes.string,
   payload: PropTypes.array,
-  label: PropTypes.string
+  label: PropTypes.string,
 };
 
 export default CustomTooltip;
