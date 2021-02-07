@@ -65,7 +65,7 @@ export const fetchStations = ({ lat, lng }) => async (dispatch) => {
 };
 
 export const setStation = (station) => {
-  window.localStorage.setItem("station", station);
+  window.localStorage?.setItem("station", station);
   return {
     type: Actions.SET_STATION,
     payload: station,
@@ -73,7 +73,7 @@ export const setStation = (station) => {
 };
 
 export const setDuration = (duration) => {
-  window.localStorage.setItem("duration", duration);
+  window.localStorage?.setItem("duration", duration);
   return {
     type: Actions.SET_DURATION,
     payload: duration,
@@ -81,7 +81,7 @@ export const setDuration = (duration) => {
 };
 
 export const setDenomination = (denomination) => {
-  window.localStorage.setItem("denomination", denomination);
+  window.localStorage?.setItem("denomination", denomination);
   return {
     type: Actions.SET_DENOMINATION,
     payload: denomination,
@@ -89,7 +89,7 @@ export const setDenomination = (denomination) => {
 };
 
 export const setBinDuration = (duration) => {
-  window.localStorage.setItem("binDuration", duration);
+  window.localStorage?.setItem("binDuration", duration);
   return {
     type: Actions.SET_BIN_DURATION,
     payload: duration,
@@ -97,7 +97,7 @@ export const setBinDuration = (duration) => {
 };
 
 export const setBinDenomination = (denomination) => {
-  window.localStorage.setItem("binDenomination", denomination);
+  window.localStorage?.setItem("binDenomination", denomination);
   return {
     type: Actions.SET_BIN_DENOMINATION,
     payload: denomination,

@@ -2,9 +2,9 @@ import Actions from "../../constants/actions";
 
 export default function (
   state = {
-    station: window.localStorage.getItem("station") || "571479",
-    duration: parseInt(window.localStorage.getItem("duration")) || 5,
-    denomination: window.localStorage.getItem("denomination") || "days",
+    station: window.localStorage?.getItem("station") || "571479",
+    duration: parseInt(window.localStorage?.getItem("duration")) || 5,
+    denomination: window.localStorage?.getItem("denomination") || "days",
   },
   action
 ) {

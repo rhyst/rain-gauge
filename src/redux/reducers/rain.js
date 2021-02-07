@@ -6,8 +6,8 @@ export default function (
     data: [],
     loading: false,
     error: false,
-    binDuration: parseInt(window.localStorage.getItem("binDuration")) || 3,
-    binDenomination: window.localStorage.getItem("binDenomination") || "hours",
+    binDuration: parseInt(window.localStorage?.getItem("binDuration")) || 3,
+    binDenomination: window.localStorage?.getItem("binDenomination") || "hours",
   },
   action
 ) {
